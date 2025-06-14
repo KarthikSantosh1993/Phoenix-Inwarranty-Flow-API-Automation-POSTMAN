@@ -33,6 +33,7 @@ jobs:
              -r cli,htmlextra
     
       - name: Newman report
+        if: always()   #ensure the step is executed irrespective of previous step is passed or failed
         uses: actions/upload-artifact@v4.6.2
         with: 
           name: Newman Report
