@@ -1,0 +1,1963 @@
+{
+	"info": {
+		"_postman_id": "6e9c41c8-131c-441b-a34a-8fe491712adf",
+		"name": "Inwarranty-Flow Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16844922"
+	},
+	"item": [
+		{
+			"name": "LoginAPIRequest_FD positive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Running positive test cases for login API\")",
+							"const responseSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"message\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"data\": {",
+							"      \"type\": \"object\",",
+							"      \"properties\": {",
+							"        \"token\": {",
+							"          \"type\": \"string\"",
+							"        }",
+							"      },",
+							"      \"required\": [",
+							"        \"token\"",
+							"      ]",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"message\",",
+							"    \"data\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"Verify status code is 200\", function(){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"",
+							"pm.test(\"Verify message is success\", function(){",
+							"    pm.expect(pm.response.json().message).to.be.equals(\"Success\")",
+							"})",
+							"",
+							"pm.test(\"Verify valid token\", function(){",
+							"    let token = pm.response.json().data.token",
+							"    pm.expect(token.split(\".\")).to.have.length(3)",
+							"    pm.collectionVariables.set(\"fdtoken\", token)",
+							"})",
+							"",
+							"pm.test(\"Validate JSON Schema\", function(){",
+							"    pm.response.to.have.jsonSchema(responseSchema)",
+							"})",
+							"",
+							"pm.test(\"Verify response time is less than 150ms\", function(){",
+							"    pm.expect(pm.response.responseTime).to.be.below(150)",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"iamfd\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDY1NTU5MTB9.hZx8rGlAwx7IHZiBs9sqEDbxq_GQZulgx0x4DtrtDlc' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamfd\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_FD_Negative-Invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Running Negative Test cases for invalid Credentials\")",
+							"const responseSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"status\": {",
+							"      \"type\": \"integer\"",
+							"    },",
+							"    \"message\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"name\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"isPublic\": {",
+							"      \"type\": \"boolean\"",
+							"    },",
+							"    \"isOperational\": {",
+							"      \"type\": \"boolean\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"status\",",
+							"    \"message\",",
+							"    \"name\",",
+							"    \"isPublic\",",
+							"    \"isOperational\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"Verify error message for inavalid credentials\", function () {",
+							"    pm.expect(pm.response.json().message).to.be.eql(\"Invalid username or password\")",
+							"})",
+							"",
+							"pm.test(\"Verify status code should be 401-Unauthorized\", function(){",
+							"    pm.response.to.have.status(401)",
+							"})",
+							"",
+							"pm.test(\"Verify JSON response schema\", function(){",
+							"    pm.response.to.have.jsonSchema(responseSchema)",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Running Negative test cases for Login API\");",
+							"console.log(\"Entering the invalid credentials\")",
+							"var invalidUserName= \"iamfd123\"",
+							"var invalidPassword= \"pass123\"",
+							"",
+							"pm.variables.set(\"invalidUserName\",invalidUserName)",
+							"pm.variables.set(\"invalidPassword\",invalidPassword)",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{invalidUserName}}\",\n    \"password\": \"{{invalidPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDY1NTU5MTB9.hZx8rGlAwx7IHZiBs9sqEDbxq_GQZulgx0x4DtrtDlc' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamfd\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_FD_Negative_Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Running Negative Test cases for empty Credentials\")",
+							"const responseSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"status\": {",
+							"      \"type\": \"integer\"",
+							"    },",
+							"    \"message\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"name\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"isPublic\": {",
+							"      \"type\": \"boolean\"",
+							"    },",
+							"    \"isOperational\": {",
+							"      \"type\": \"boolean\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"status\",",
+							"    \"message\",",
+							"    \"name\",",
+							"    \"isPublic\",",
+							"    \"isOperational\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"Verify error message for empty credentials\", function () {",
+							"    pm.expect(pm.response.json().message).to.be.equals(\"Invalid request\")",
+							"})",
+							"",
+							"pm.test(\"Verify status code should be 400- Bad Request\", function(){",
+							"    pm.response.to.have.status(400)",
+							"})",
+							"",
+							"pm.test(\"Verify JSON response schema\", function(){",
+							"    pm.response.to.have.jsonSchema(responseSchema)",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Running Negative test cases for Login API\");",
+							"console.log(\"Entering the invalid credentials\")",
+							"var invalidUserName= \"\"",
+							"var invalidPassword= \"\"",
+							"",
+							"pm.variables.set(\"invalidUserName\",invalidUserName)",
+							"pm.variables.set(\"invalidPassword\",invalidPassword)",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{invalidUserName}}\",\n    \"password\": \"{{invalidPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDY1NTU5MTB9.hZx8rGlAwx7IHZiBs9sqEDbxq_GQZulgx0x4DtrtDlc' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamfd\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetailsAPIRequest_FD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Running Poisitive tests for User Details API\");",
+							"const responseSchema= {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"message\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"data\": {",
+							"      \"type\": \"object\",",
+							"      \"properties\": {",
+							"        \"id\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"first_name\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"last_name\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"login_id\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"mobile_number\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"email_id\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"password\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"reset_password_date\": {",
+							"          \"type\": \"null\"",
+							"        },",
+							"        \"lock_status\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"is_active\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"mst_role_id\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"mst_service_location_id\": {",
+							"          \"type\": \"integer\"",
+							"        },",
+							"        \"created_at\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"modified_at\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"role_name\": {",
+							"          \"type\": \"string\"",
+							"        },",
+							"        \"service_location\": {",
+							"          \"type\": \"string\"",
+							"        }",
+							"      },",
+							"      \"required\": [",
+							"        \"id\",",
+							"        \"first_name\",",
+							"        \"last_name\",",
+							"        \"login_id\",",
+							"        \"mobile_number\",",
+							"        \"email_id\",",
+							"        \"password\",",
+							"        \"reset_password_date\",",
+							"        \"lock_status\",",
+							"        \"is_active\",",
+							"        \"mst_role_id\",",
+							"        \"mst_service_location_id\",",
+							"        \"created_at\",",
+							"        \"modified_at\",",
+							"        \"role_name\",",
+							"        \"service_location\"",
+							"      ]",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"message\",",
+							"    \"data\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test(\"Verify status code is 200 \",function(){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"",
+							"pm.test(\"Verify response time  less than 150 ms\", function(){",
+							"    pm.expect(pm.response.responseTime).to.be.below(150)",
+							"})",
+							"",
+							"pm.test(\"Validate JSON Response Schema\", function(){",
+							"    pm.response.to.have.jsonSchema(responseSchema)",
+							"})",
+							"",
+							"pm.test(\"Verify Message is success\", function(){",
+							"    pm.expect(pm.response.json().message).to.be.equals(\"Success\")",
+							"})",
+							"",
+							"pm.test(\"Verify user properties are present\", function(){",
+							"    var responseBody = pm.response.json()",
+							"    pm.expect(responseBody.data).to.have.property(\"id\")",
+							"    pm.expect(responseBody.data).to.have.property(\"first_name\")",
+							"    pm.expect(responseBody.data).to.have.property(\"last_name\")",
+							"    pm.expect(responseBody.data).to.have.property(\"login_id\")",
+							"    pm.expect(responseBody.data).to.have.property(\"mobile_number\")",
+							"    pm.expect(responseBody.data).to.have.property(\"email_id\")",
+							"    pm.expect(responseBody.data).to.have.property(\"lock_status\")",
+							"    pm.expect(responseBody.data).to.have.property(\"is_active\")",
+							"    pm.expect(responseBody.data).to.have.property(\"mst_role_id\")",
+							"    pm.expect(responseBody.data).to.have.property(\"mst_service_location_id\")",
+							"    pm.expect(responseBody.data).to.have.property(\"created_at\")",
+							"    pm.expect(responseBody.data).to.have.property(\"service_location\")",
+							"    pm.expect(responseBody.data).to.have.property(\"modified_at\")",
+							"    pm.expect(responseBody.data).to.have.property(\"role_name\")",
+							"})",
+							"",
+							"pm.test(\"Verify role of Front Desk\", function(){",
+							"    pm.expect(pm.response.json().data.role_name).to.be.equals(\"FrontDesk\")",
+							"})",
+							"",
+							"pm.test(\"Security: verify if Password field is not present in response\", function(){",
+							"    pm.expect(pm.response.json().data).to.not.have.property(\"password\")",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1b6-cR2dclq1S8zJDBAsHCDA10lTBi4\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetailsAPIRequest_FD_Negative_No_Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Negative test for user Details API Request for FD (No Token passed)\");",
+							"",
+							"pm.test(\"Verify if response code is 401 : Unauthorized\", function(){",
+							"    pm.response.to.have.status(401)",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": ""
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1b6-cR2dclq1S8zJDBAsHCDA10lTBi4\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_FD",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"f1-MypNuTVWgcDvqZTixc9wZTKfaeQ\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "MasterAPIRequest_FD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/master",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"master"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/master' \\\n  -X 'POST' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Length: 0' \\\n  -H 'Content-Type: text/plain' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateJobAPIRequest_FD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody= pm.response.json()",
+							"var jobId= responseBody.data.id",
+							"pm.collectionVariables.set(\"jobId\", jobId)",
+							"var job_number= responseBody.data.job_number",
+							"pm.collectionVariables.set(\"job_number\", job_number)",
+							"console.log(jobId)",
+							"console.log(job_number)",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random= Math.random()",
+							"var imeiNumber= (Math.floor(random*100000000000000+10000000000000))",
+							"console.log(imeiNumber)",
+							"pm.collectionVariables.set(\"imeiNumber\", imeiNumber)",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mst_service_location_id\": 0,\n    \"mst_platform_id\": 2,\n    \"mst_warrenty_status_id\": 1,\n    \"mst_oem_id\": 1,\n    \"customer\": {\n        \"first_name\": \"Karthik\",\n        \"last_name\": \"Duruvasula\",\n        \"mobile_number\": \"7897897890\",\n        \"mobile_number_alt\": \"\",\n        \"email_id\": \"krthiksantosh@gmail.com\",\n        \"email_id_alt\": \"krthiksantosh@gmail.com\"\n    },\n    \"customer_address\": {\n        \"flat_number\": \"2A\",\n        \"apartment_name\": \"habitat\",\n        \"street_name\": \"flat no:2A, a, Tellapur\",\n        \"landmark\": \"SR Indoor swimming pool\",\n        \"area\": \"NALLAGANDLA\",\n        \"pincode\": \"505032\",\n        \"country\": \"India\",\n        \"state\": \"Telangana\"\n    },\n    \"customer_product\": {\n        \"dop\": \"2025-05-07T18:30:00.000Z\",\n        \"serial_number\": \"{{imeiNumber}}\",\n        \"imei1\": \"{{imeiNumber}}\",\n        \"imei2\": \"{{imeiNumber}}\",\n        \"popurl\": \"2025-05-07T18:30:00.000Z\",\n        \"product_id\": 1,\n        \"mst_model_id\": 1\n    },\n    \"problems\": [\n        {\n            \"id\": 1,\n            \"remark\": \"Battery Issue\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/job/create",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"create"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/create' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"mst_service_location_id\":0,\"mst_platform_id\":2,\"mst_warrenty_status_id\":1,\"mst_oem_id\":1,\"customer\":{\"first_name\":\"Karthik\",\"last_name\":\"Duruvasula\",\"mobile_number\":\"7386645645\",\"mobile_number_alt\":\"\",\"email_id\":\"krthiksantosh@gmail.com\",\"email_id_alt\":\"krthiksantosh@gmail.com\"},\"customer_address\":{\"flat_number\":\"202\",\"apartment_name\":\"ts habitat\",\"street_name\":\"flat no:202, Tumi and spire habitat, Tellapur\",\"landmark\":\"SR Indoor swimming pool\",\"area\":\"tellapur\",\"pincode\":\"502032\",\"country\":\"India\",\"state\":\"Telangana\"},\"customer_product\":{\"dop\":\"2025-05-07T18:30:00.000Z\",\"serial_number\":\"11112222333344\",\"imei1\":\"11112222333344\",\"imei2\":\"11112222333344\",\"popurl\":\"2025-05-07T18:30:00.000Z\",\"product_id\":1,\"mst_model_id\":1},\"problems\":[{\"id\":1,\"remark\":\"slow\"}]}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_FD",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"f1-MypNuTVWgcDvqZTixc9wZTKfaeQ\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "DetailsAPIrequest_FD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"details_key\":\"created_today\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"created_today\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "SearchJobAPIRequest_FD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchText\": \"{{job_number}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/job/search",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"search"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/search' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"searchText\":\"JOB_31888\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "JobDetailsAPIRequest_FD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/job/details/{{job_number}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"details",
+						"{{job_number}}"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/details/JOB_31888' \\\n  -X 'POST' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Length: 0' \\\n  -H 'Content-Type: text/plain' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_Supervisor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//collection variable ",
+							"var responseBody = pm.response.json()",
+							"console.log(responseBody.data.token)",
+							"pm.collectionVariables.set(\"suptoken\", responseBody.data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"iamsup\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamsup\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetailsAPIRequest_Supervisor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1bc-5jtJRsd0hZILh8Na44eS7Os72ts\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_Supervisor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"fb-qIkp+CCAGeO7irmJrkagg6okEF4\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "PendingForAssignmentAPIRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var template = `",
+							"<style type=\"text/css\">",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+							"    .tftable tr {background-color:#ffffff;}",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+							"    .tftable tr:hover {background-color:#e0ffff;}",
+							"</style>",
+							"",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>ID</th>",
+							"        <th>Job Number</th>",
+							"        <th>TR Customer ID</th>",
+							"        <th>TR Customer Product ID</th>",
+							"        <th>Service Location ID</th>",
+							"        <th>Platform ID</th>",
+							"        <th>Action Status ID</th>",
+							"        <th>Warranty Status ID</th>",
+							"        <th>OEM ID</th>",
+							"        <th>Repair Start Date</th>",
+							"        <th>Repair End Date</th>",
+							"        <th>Created At</th>",
+							"        <th>Modified At</th>",
+							"        <th>Name</th>",
+							"        <th>Mobile Number</th>",
+							"        <th>Email ID</th>",
+							"        <th>DOP</th>",
+							"        <th>Serial Number</th>",
+							"        <th>IMEI1</th>",
+							"        <th>IMEI2</th>",
+							"        <th>POPURL</th>",
+							"        <th>Model ID</th>",
+							"        <th>Product ID</th>",
+							"        <th>Model Name</th>",
+							"        <th>Product Name</th>",
+							"        <th>Service Location Name</th>",
+							"        <th>Action Status Code</th>",
+							"        <th>Platform Name</th>",
+							"        <th>Warranty Status</th>",
+							"        <th>OEM Name</th>",
+							"        <th>Action Status</th>",
+							"        <th>Assigned By</th>",
+							"        <th>Assigned On</th>",
+							"        <th>Assigned To</th>",
+							"        <th>Warranty Status Code</th>",
+							"    </tr>",
+							"    ",
+							"    {{#each response.data}}",
+							"        <tr id=row_{{@key}}>",
+							"            <td>{{id}}</td>",
+							"            <td>{{job_number}}</td>",
+							"            <td>{{tr_customer_id}}</td>",
+							"            <td>{{tr_customer_product_id}}</td>",
+							"            <td>{{mst_service_location_id}}</td>",
+							"            <td>{{mst_platform_id}}</td>",
+							"            <td>{{mst_action_status_id}}</td>",
+							"            <td>{{mst_warrenty_status_id}}</td>",
+							"            <td>{{mst_oem_id}}</td>",
+							"            <td>{{repair_start_date}}</td>",
+							"            <td>{{repair_end_date}}</td>",
+							"            <td>{{created_at}}</td>",
+							"            <td>{{modified_at}}</td>",
+							"            <td>{{name}}</td>",
+							"            <td>{{mobile_number}}</td>",
+							"            <td>{{email_id}}</td>",
+							"            <td>{{dop}}</td>",
+							"            <td>{{serial_number}}</td>",
+							"            <td>{{imei1}}</td>",
+							"            <td>{{imei2}}</td>",
+							"            <td>{{popurl}}</td>",
+							"            <td>{{mst_model_id}}</td>",
+							"            <td>{{mst_product_id}}</td>",
+							"            <td>{{mst_model_name}}</td>",
+							"            <td>{{mst_product_name}}</td>",
+							"            <td>{{mst_service_location_name}}</td>",
+							"            <td>{{mst_action_status_code}}</td>",
+							"            <td>{{mst_platform_name}}</td>",
+							"            <td>{{mst_warrenty_status}}</td>",
+							"            <td>{{mst_oem_name}}</td>",
+							"            <td>{{mst_action_status}}</td>",
+							"            <td>{{assigned_by}}</td>",
+							"            <td>{{assigned_on}}</td>",
+							"            <td>{{assigned_to}}</td>",
+							"            <td>{{mst_warrenty_status_code}}</td>",
+							"        </tr>",
+							"    {{/each}}",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    var visualizerData = pm.response.json();",
+							"",
+							"    return {response: visualizerData};",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/job/pending",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"pending"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/pending' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "EngineerMappedToServiceCenterAPIRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody=pm.response.json()",
+							"console.log(responseBody.data[0].id)",
+							"pm.collectionVariables.set(\"engId\", responseBody.data[0].id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/engineer/mapped",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"engineer",
+						"mapped"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/engineer/mapped' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"362-uZ8Ftnx2Af1NjAWrk0wJooRkni0\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "AssignJobToEngineerAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job_id\": {{jobId}},\n    \"engineer_id\": {{engId}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/engineer/assign",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"engineer",
+						"assign"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/engineer/assign' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"job_id\":31888,\"engineer_id\":2}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "PendingForAssignmentAPIRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"// pm.test(\"Response has the required fields\", function () {",
+							"//     const responseData = pm.response.json();",
+							"    ",
+							"//     pm.expect(responseData).to.be.an('object');",
+							"//     pm.expect(responseData).to.have.property('id');",
+							"//     pm.expect(responseData).to.have.property('job_number');",
+							"//     pm.expect(responseData).to.have.property('tr_customer_id');",
+							"//     pm.expect(responseData).to.have.property('tr_customer_product_id');",
+							"//     pm.expect(responseData).to.have.property('mst_service_location_id');",
+							"//     pm.expect(responseData).to.have.property('mst_platform_id');",
+							"//     pm.expect(responseData).to.have.property('mst_action_status_id');",
+							"//     pm.expect(responseData).to.have.property('mst_warrenty_status_id');",
+							"//     pm.expect(responseData).to.have.property('mst_oem_id');",
+							"//     pm.expect(responseData).to.have.property('repair_start_date');",
+							"//     pm.expect(responseData).to.have.property('repair_end_date');",
+							"//     pm.expect(responseData).to.have.property('created_at');",
+							"//     pm.expect(responseData).to.have.property('modified_at');",
+							"//     pm.expect(responseData).to.have.property('name');",
+							"//     pm.expect(responseData).to.have.property('mobile_number');",
+							"//     pm.expect(responseData).to.have.property('email_id');",
+							"//     pm.expect(responseData).to.have.property('dop');",
+							"//     pm.expect(responseData).to.have.property('serial_number');",
+							"//     pm.expect(responseData).to.have.property('imei1');",
+							"//     pm.expect(responseData).to.have.property('imei2');",
+							"//     pm.expect(responseData).to.have.property('popurl');",
+							"//     pm.expect(responseData).to.have.property('mst_model_id');",
+							"//     pm.expect(responseData).to.have.property('mst_product_id');",
+							"//     pm.expect(responseData).to.have.property('mst_model_name');",
+							"//     pm.expect(responseData).to.have.property('mst_product_name');",
+							"//     pm.expect(responseData).to.have.property('mst_service_location_name');",
+							"//     pm.expect(responseData).to.have.property('mst_action_status_code');",
+							"//     pm.expect(responseData).to.have.property('mst_platform_name');",
+							"//     pm.expect(responseData).to.have.property('mst_warrenty_status');",
+							"//     pm.expect(responseData).to.have.property('mst_oem_name');",
+							"//     pm.expect(responseData).to.have.property('mst_action_status');",
+							"//     pm.expect(responseData).to.have.property('assigned_by');",
+							"//     pm.expect(responseData).to.have.property('assigned_on');",
+							"//     pm.expect(responseData).to.have.property('assigned_to');",
+							"//     pm.expect(responseData).to.have.property('mst_warrenty_status_code');",
+							"// });",
+							"",
+							"",
+							"// pm.test(\"Repair start date should be in a valid date format\", function () {",
+							"//     const responseData = pm.response.json();",
+							"//     responseData.data.forEach(function(job) {",
+							"//         pm.expect(job.repair_start_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"//     });",
+							"// });",
+							"",
+							"// pm.test(\"Repair end date should be in a valid date format\", function () {",
+							"//     const responseData = pm.response.json();",
+							"//     responseData.data.forEach(function(job) {",
+							"//         pm.expect(job.repair_end_date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"//     });",
+							"// });",
+							"",
+							"// pm.test(\"Created at should be in a valid date format\", function () {",
+							"//     const responseData = pm.response.json();",
+							"//     responseData.data.forEach(function(job) {",
+							"//         pm.expect(job.created_at).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"//     });",
+							"// });",
+							"",
+							"// pm.test(\"DOP should be in a valid date format\", function () {",
+							"//     const responseData = pm.response.json();",
+							"//     responseData.data.forEach(function(job) {",
+							"//         pm.expect(job.dop).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"//     });",
+							"// });",
+							"",
+							"",
+							"// pm.test(\"Response time is less than 500ms\", function () {",
+							"//   pm.expect(pm.response.responseTime).to.be.below(500);",
+							"// });",
+							"",
+							"",
+							"// pm.test(\"Data array is present and contains expected number of elements\", function () {",
+							"//     const responseData = pm.response.json();",
+							"    ",
+							"//     pm.expect(responseData).to.be.an('object');",
+							"//     pm.expect(responseData.data).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+							"// });",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{suptoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/job/pending",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"pending"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/pending' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJDZW5hIiwibG9naW5faWQiOiJpYW1zdXAiLCJtb2JpbGVfbnVtYmVyIjoiOTk4ODc3ODg5OSIsImVtYWlsX2lkIjoiam9obkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjVmNGRjYzNiNWFhNzY1ZDYxZDgzMjdkZWI4ODJjZjk5IiwicmVzZXRfcGFzc3dvcmRfZGF0ZSI6bnVsbCwibG9ja19zdGF0dXMiOjAsImlzX2FjdGl2ZSI6MSwibXN0X3JvbGVfaWQiOjIsIm1zdF9zZXJ2aWNlX2xvY2F0aW9uX2lkIjoxLCJjcmVhdGVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwibW9kaWZpZWRfYXQiOiIyMDIxLTEyLTIwVDA3OjQyOjAwLjAwMFoiLCJyb2xlX25hbWUiOiJTdXBlcnZpc29yIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTU5MjF9.yQMFfo-F-UvKIVxU_Vof5xbrXRMDEp0lbGAdV6_vuaQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"bd81c-HcsSF3gulw0fYbf9WS34f+yNFL4\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_Engineer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//collection variable ",
+							"var responseBody = pm.response.json()",
+							"console.log(responseBody.data.token)",
+							"pm.collectionVariables.set(\"engToken\", responseBody.data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"iameng\",\"password\":\"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iameng\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetailsAPIRequest_Engineer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1b9-gwZ3q4NUFVwjUwUa8wJaXTtaK9Q\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_Engineer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"a4-6tRfqYFgGDLLiCfxFdynJFPFrlg\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "PendingForRepairDetailsAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"details_key\":\"pending_for_repair\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"pending_for_repair\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "RepairCompletedAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"details_key\": \"repair_completed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"repair_completed\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "JobAssignedToEnginnerAPIrequest",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/engineer/myjobs",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"engineer",
+						"myjobs"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/engineer/myjobs' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"23f18-wjBzRid4RhBoGMlIU4gstCM+JUs\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "MasterAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/master",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"master"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/master' \\\n  -X 'POST' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Length: 0' \\\n  -H 'Content-Type: text/plain' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "RepairCompleteAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{engToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job_id\": {{jobId}},\n    \"problems\": [\n        {\n            \"id\": 2,\n            \"remark\": \"Battery replaced\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/engineer/repaircomplete",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"engineer",
+						"repaircomplete"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/engineer/repaircomplete' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RfbmFtZSI6Ik1hcmsiLCJsYXN0X25hbWUiOiJ6dWsiLCJsb2dpbl9pZCI6ImlhbWVuZyIsIm1vYmlsZV9udW1iZXIiOiI4ODk5Nzc2NjU1IiwiZW1haWxfaWQiOiJtYXJrQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNWY0ZGNjM2I1YWE3NjVkNjFkODMyN2RlYjg4MmNmOTkiLCJyZXNldF9wYXNzd29yZF9kYXRlIjpudWxsLCJsb2NrX3N0YXR1cyI6MCwiaXNfYWN0aXZlIjoxLCJtc3Rfcm9sZV9pZCI6MSwibXN0X3NlcnZpY2VfbG9jYXRpb25faWQiOjEsImNyZWF0ZWRfYXQiOiIyMDIxLTExLTAzVDA4OjA2OjIzLjAwMFoiLCJtb2RpZmllZF9hdCI6IjIwMjEtMTItMjBUMDc6NDI6MDAuMDAwWiIsInJvbGVfbmFtZSI6IkVuZ2luZWVyIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2MjczMTJ9.kwdScy9uJVNQoGAPebECg3UunMHsJ1FHL6Ob1Jukbr0' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"job_id\":31888,\"problems\":[{\"id\":1,\"remark\":\"re installed os \"}]}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_QC",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody= pm.response.json()",
+							"console.log(responseBody.data.token)",
+							"pm.collectionVariables.set(\"qcToken\", responseBody.data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"iamqc\",\"password\":\"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamqc\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetaisAPIRequest_QC",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1b9-gwZ3q4NUFVwjUwUa8wJaXTtaK9Q\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_QC",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"a4-KGAtv4O83iH7iJF6+0cR5eXDhU0\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "PendingQCAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"details_key\": \"pending_for_qc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"pending_for_qc\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "QCCompletedAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"details_key\": \"qc_completed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"qc_completed\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "QCJobsListAPIRequest",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/qc",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"qc"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/qc' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"54ca-audzE35l91iICE3qHNuZ36z+O9E\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CompletedQCForJobAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzcxODEyOH0.uXAV2uzoTprOt7kKiKDAPGFBSF3ZlnEipISlnOYwdzs"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job_id\": {{jobId}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/qc",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"qc"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/qc' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"job_id\":31561}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "QCJobListAPIRequest",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{qcToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/qc",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"qc"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/qc' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6InFjIiwibGFzdF9uYW1lIjoicWMiLCJsb2dpbl9pZCI6ImlhbXFjIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo0LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiUUMiLCJzZXJ2aWNlX2xvY2F0aW9uIjoiU2VydmljZSBDZW50ZXIgQSIsImlhdCI6MTc0NzYzNzk0Nn0.Vd3iGOIiWdAn9oRzEF4XBBzsKxAUAfPdoTRig05XH6g' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAPIRequest_FD Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody= pm.response.json()",
+							"console.log(responseBody.data.token)",
+							"pm.collectionVariables.set(\"fdtoken\", responseBody.data.token)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"iamfd\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/login' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDY1NTU5MTB9.hZx8rGlAwx7IHZiBs9sqEDbxq_GQZulgx0x4DtrtDlc' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"username\":\"iamfd\",\"password\":\"password\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "UserDetailsAPIRequest_FD Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/userdetails",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"userdetails"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/userdetails' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1b6-cR2dclq1S8zJDBAsHCDA10lTBi4\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "CountAPIRequest_FD Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/count",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"count"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/count' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"f1-MypNuTVWgcDvqZTixc9wZTKfaeQ\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "PendingForDeliveryJobDetailsAPIrequest_FD Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"details_key\": \"created_today\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/dashboard/details",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"dashboard",
+						"details"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/dashboard/details' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc0MTExMTZ9.6UzHDdZB_pKu9B6KkHPDbm1inOgF_E413MsTbe0pXwg' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"details_key\":\"created_today\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "ReadyForDeliveryJobAPIRequest",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/fd/readyfordelivery",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"fd",
+						"readyfordelivery"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/fd/readyfordelivery' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2Mzg4NDR9.ZGqiDjWr8vtZYMCrlVAkPd4BJcdxAynmEd-ly01JZ-E' \\\n  -H 'Connection: keep-alive' \\\n  -H 'If-None-Match: W/\"1f-XHSNhKvrk3aAE4wN//TuJSkDTNM\"' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "DeliverToCustomerAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job_id\": {{jobId}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/fd/delivertocustomer",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"fd",
+						"delivertocustomer"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/fd/delivertocustomer' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2Mzg4NDR9.ZGqiDjWr8vtZYMCrlVAkPd4BJcdxAynmEd-ly01JZ-E' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"job_id\":31624}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "SearchJobDetailsAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc3MTg0NDZ9.18RfMoZng1kQT8ZiIrVAqyaU4MKQtW8W7hhlqC1tHfk"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchText\": \"{{job_number}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/job/search",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"search"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/search' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2Mzg4NDR9.ZGqiDjWr8vtZYMCrlVAkPd4BJcdxAynmEd-ly01JZ-E' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --data-raw '{\"searchText\":\"JOB_31888\"}' \\\n  --insecure"
+			},
+			"response": []
+		},
+		{
+			"name": "JobDetailsAPIRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{fdtoken}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/job/details/{{job_number}}",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"job",
+						"details",
+						"{{job_number}}"
+					]
+				},
+				"description": "Generated from cURL: curl 'http://64.227.160.186:9000/v1/job/details/JOB_31888' \\\n  -X 'POST' \\\n  -H 'Accept: application/json, text/plain, */*' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8,te;q=0.7' \\\n  -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RfbmFtZSI6ImZkIiwibGFzdF9uYW1lIjoiZmQiLCJsb2dpbl9pZCI6ImlhbWZkIiwibW9iaWxlX251bWJlciI6Ijg4OTk3NzY2NTUiLCJlbWFpbF9pZCI6Im1hcmtAZ21haWwuY29tIiwicGFzc3dvcmQiOiI1ZjRkY2MzYjVhYTc2NWQ2MWQ4MzI3ZGViODgyY2Y5OSIsInJlc2V0X3Bhc3N3b3JkX2RhdGUiOm51bGwsImxvY2tfc3RhdHVzIjowLCJpc19hY3RpdmUiOjEsIm1zdF9yb2xlX2lkIjo1LCJtc3Rfc2VydmljZV9sb2NhdGlvbl9pZCI6MSwiY3JlYXRlZF9hdCI6IjIwMjEtMTEtMDNUMDg6MDY6MjMuMDAwWiIsIm1vZGlmaWVkX2F0IjoiMjAyMS0xMS0wM1QwODowNjoyMy4wMDBaIiwicm9sZV9uYW1lIjoiRnJvbnREZXNrIiwic2VydmljZV9sb2NhdGlvbiI6IlNlcnZpY2UgQ2VudGVyIEEiLCJpYXQiOjE3NDc2Mzg4NDR9.ZGqiDjWr8vtZYMCrlVAkPd4BJcdxAynmEd-ly01JZ-E' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Length: 0' \\\n  -H 'Content-Type: text/plain' \\\n  -H 'Origin: http://phoenix.techwithjatin.com' \\\n  -H 'Referer: http://phoenix.techwithjatin.com/' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' \\\n  --insecure"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "fdtoken",
+			"value": ""
+		},
+		{
+			"key": "imeiNumber",
+			"value": ""
+		},
+		{
+			"key": "jobId",
+			"value": ""
+		},
+		{
+			"key": "job_number",
+			"value": ""
+		},
+		{
+			"key": "suptoken",
+			"value": ""
+		},
+		{
+			"key": "engId",
+			"value": ""
+		},
+		{
+			"key": "engToken",
+			"value": ""
+		},
+		{
+			"key": "qcToken",
+			"value": ""
+		}
+	]
+}
