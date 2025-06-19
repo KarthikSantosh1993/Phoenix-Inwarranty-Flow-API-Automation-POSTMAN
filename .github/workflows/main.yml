@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: 30 02 * * * #8:00 AM IST 
-    - cron: 00 14 * * * #7:30 PM IST
+   # - cron: 00 14 * * * #7:30 PM IST
 jobs: 
   run-postman-test:
-    runs-on: ec2-github-runner
-
+    #runs-on: ec2-github-runner
+    runs-on: ubuntu-latest       
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4.2.2
